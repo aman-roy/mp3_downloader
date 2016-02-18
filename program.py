@@ -84,7 +84,6 @@ elif AskAQuestion == '2':
 
 	# generate a Download link that can be get the audio file using youtube2mp3 APIs.
 	DownloadLinkOnly = "http://www.youtubeinmp3.com/fetch/?video="+"http://www.youtube.com/watch?v=" + search_results[0]
-	print (song)
 	try:
 		filename = wget.download(DownloadLinkOnly)        # download the song in working directory	
 	except:
