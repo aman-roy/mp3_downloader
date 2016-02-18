@@ -18,7 +18,7 @@ os.system('clear')
 os.system('cls')
 
 # Intro
-print('''\tCreate by Aman Roy
+print('''Created  by Aman Roy
 FB:- amanroy007
 Email:- royaman8757@gmail.com''')
 
