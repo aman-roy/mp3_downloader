@@ -1,5 +1,5 @@
 # Mp3_Downloader
-A simple puthon program from which you can download the songs by just entering the name. You can also download by entering a list of name, youtube link or list of youtube links.
+A simple python script from which you can download the songs by just entering the name. You can also download by entering a list of name, youtube link or list of youtube links.
 
 
 Python version :- Python 3.4.3+
