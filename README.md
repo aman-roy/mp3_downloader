@@ -9,3 +9,16 @@ Run the program.py from the command line and do as given.
 
 Authour :- Aman Roy
 facebook:- https://www.facebook.com/amanroy007
+
+# Revisions by Michael Gilbert:
+
+I have ported the entire script to be compatible with BOTH python 3
+AND python 3.
+
+All functionality is kept between the 2 versions of python. There is a 
+slight hang for certain songs when downloading. I will work on hastining
+this process up.
+
+I also need to create a function for a progress bar. You do not get one
+when using urllib, only when using wget. Without wget, you have a more
+portable script.
