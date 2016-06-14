@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # A python to download a song or a list of songs.
 # create by Aman Roy
 # Creation Date : 18-Feb-2016
