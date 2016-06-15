@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # A python to download a song or a list of songs.
 # create by Aman Roy
 # Creation Date : 18-Feb-2016
@@ -17,14 +17,24 @@ import sys
 version = sys.version_info[0]
 
 
-# set user_input for correct version
-if version == 2:
+# set user_input for correct version of python
+if version == 2:  # python 2.x
     user_input = raw_input
     import urllib2
-else:
+    urlopen = urllib2.urlopen  # open a url
+    encode = urllib.urlencode  # encode a search line
+    retrieve = urllib.urlretrieve  # retrieve url info
+    cleanup = urllib.urlcleanup()  # cleanup url cache
+    #search = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
+else:  # python 3.x
     user_input = input
     import urllib.request
     import urllib.parse
+    urlopen = urllib.request.urlopen
+    encode = urllib.parse.urlencode
+    retrieve = urllib.request.urlretrieve
+    cleanup = urllib.request.urlcleanup()
+    search = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
 
 
 # clear the terminal screen
@@ -37,19 +47,12 @@ def screen_clear():
 
 # function to retrieve video title from provided link
 def video_title(url):
-    if version == 3:  # if using python 3.x
-        try:
-            webpage = urllib.request.urlopen(url).read()
-            title = str(webpage).split('<title>')[1].split('</title>')[0]
-        except:
-            title = 'Youtube Song'
-    else:
-        try:
-            webpage = urllib2.urlopen(url).read()
-            title = str(webpage).split('<title>')[1].split('</title>')[0]
-        except:
-            title = 'Youtube Song'
-
+    try:
+        webpage = urlopen(url).read()
+        title = str(webpage).split('<title>')[1].split('</title>')[0]
+    except:
+        title = 'Youtube Song'
+    
     return title
 
 # the intro to the script
@@ -84,92 +87,57 @@ def name_list_download():
         print('File does not exist')
         exit(1)
 
-    if version == 3:  # if using python 3.x
-        for songs in fhand:
-            query_string = urllib.parse.urlencode({'search_query' : songs})
-            html_content = urllib.request.urlopen('http://www.youtube.com/results?' + query_string)
+    for songs in fhand:
+        query_string = encode({'search_query' : songs})
+        html_content = urlopen('http://www.youtube.com/results?' + query_string)
+        
+        if version == 3:  # if using python 3.x
             search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-                    
-            # generate a download link that can grab the audio file using youtube2mp3 API
-            downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
-            # why do we have this variable being created?
-            downloadLink = songs + ':' + downloadLinkOnly  # song name and link in a single file to save it in the file safely
-                     
-            try:
-                print('Downloading %s' % songs) 
-                # code a progress bar for visuals?? this way is more portable than wget
-                urllib.request.urlretrieve(downloadLinkOnly, filename='%s.mp3' % songs)  # download the file in the working directory
-                urllib.request.urlcleanup()  # clear the cache created by urlretrieve
-            except:
-                print('Error downloading %s' % songs)
-        fhand.close()
-
-    else:  # if using python 2.x
-        for songs in fhand:
-            query_string = urllib.urlencode({'search_query': songs})
-            html_content = urllib2.urlopen('http://www.youtube.com/results?' + query_string)
+        else:  # if using python 2.x
             search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
-
-            # generate a download link that can grab the audio file using youtube2mp3 API
-            downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
-            # why do we have this variable being created?
-            downloadLink = songs + ':' + downloadLinkOnly  # song name and link in a single file to save it in the file safely
-
-            try:
-                print('Downloading %s' % songs)
-                # code a progress bar for visuals??
-                urllib.urlretrieve(downloadLinkOnly, filename='%s.mp3' % songs)  # download the file in the working directory
-                urllib.urlcleanup() # clear the cache created by urlretrieve
-            except:
-                print('Error downloading %s' % songs)
-        fhand.close()
+                
+        # generate a download link that can grab the audio file using youtube2mp3 API
+        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
+        # why do we have this variable being created?
+        downloadLink = songs + ':' + downloadLinkOnly  # song name and link in a single file to save it in the file safely
+                 
+        try:
+            print('Downloading %s' % songs) 
+            # code a progress bar for visuals?? this way is more portable than wget
+            retrieve(downloadLinkOnly, filename='%s.mp3' % songs)  # download the file in the working directory
+            cleanup  # clear the cache created by urlretrieve
+        except:
+            print('Error downloading %s' % songs)
+    fhand.close()
 
 
 # download directly with a song name
-def name_download():
+def single_name_download():
     song = user_input('Enter the song name: ')  # get the song name from user
     
-    if version == 3:  # if using python 3.x
         # try to get the search result and exit upon error
-        try:
-            query_string = urllib.parse.urlencode({"search_query" : song})
-            html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
-            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-        except:
-            print('Network Error')
-            exit(1)
-
-        # generate a download link that can be used to get the audio file using youtube2mp3 API
-        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
-        try:
-            print('Downloading %s' % song)
-            # code a progress bar for visuals? this way is more portable than wget
-            urllib.request.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-            urllib.request.urlcleanup()  # clear the cache created by urlretrieve
-        except:
-            print('Error downloading %s' % song)
-            exit(1)
-
-    else:  # if using python 2.x
+    try:
+        query_string = encode({"search_query" : song})
+        html_content = urlopen("http://www.youtube.com/results?" + query_string)
         
-        try:
-            query_string = urllib.urlencode({'search_query': song})
-            html_content = urllib2.urlopen('http://www.youtube.com/results?' + query_string)
+        if version == 3:  # if using python 3.x
+            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+        else:  # if using python 2.x
             search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
-        except:
-            print('Network Error')
-            exit(1)
+    except:
+        print('Network Error')
+        exit(1)
 
-        # generate a download link that can grab the audio file using youtube2mp3 API
-        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
-        try:
-            print('Downloading %s' % song)
-            # code a progress bar for visuals?
-            urllib.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-            urllib.urlcleanup() # clear the cache created by urlretrieve
-        except:
-            print('Error downloading %s' % song)
-            exit(1)
+    # generate a download link that can be used to get the audio file using youtube2mp3 API
+    downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
+    try:
+        print('Downloading %s' % song)
+        # code a progress bar for visuals? this way is more portable than wget
+        retrieve(downloadLinkOnly, filename='%s.mp3' % song)
+        cleanup  # clear the cache created by urlretrieve
+    except:
+        print('Error downloading %s' % song)
+        exit(1)
 
 
 # download directly with a youtube link
@@ -179,26 +147,15 @@ def link_download():
     youtubeLink = user_input('>>> ')
     downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + youtubeLink
 
-    if version == 3:  # if using python 3.x    
-        try:
-            song = video_title(youtubeLink)
-            print('Downloading %s' % song)
-            # code a progress bar for visuals? this way is more portable than wget
-            urllib.request.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-            urllib.request.urlcleanup()  # clear the cache created by urlretrieve
-        except:
-            print('Error downloading %s' % song)
-            exit(1)
-    else:  # if using python 2.x
-        try:
-            song = video_title(youtubeLink)
-            print('Downloading %s' % song)
-            # code a progress bar for visuals?
-            urllib.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-            urllib.urlcleanup() # clear the cache created by urlretrieve
-        except:
-            print('Error downloading %s' % song)
-            exit(1)
+    try:
+        song = video_title(youtubeLink)
+        print('Downloading %s' % song)
+        # code a progress bar for visuals? this way is more portable than wget
+        retrieve(downloadLinkOnly, filename='%s.mp3' % song)
+        cleanup  # clear the cache created by urlretrieve
+    except:
+        print('Error downloading %s' % song)
+        exit(1)
 
 
 # download songs with a list of youtube links
@@ -212,31 +169,17 @@ def link_list_download():
         print('File does not exist')
         exit(1)
     
-    if version == 3:
-        for links in fhand:
-            try:
-                downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + links
-                song = video_title(links)
-                print('Downloading %s' % song)
-                # code a progress bar for visuals? this way is more portable than wget
-                urllib.request.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-                urllib.request.urlcleanup()  # clear the cache created by urlretrieve
-            except:
-                print('Error downloading %s' % song)
-        fhand.close()
-    
-    else:  # if using python 2.x
-        for links in fhand:
-            try:
-                downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + links
-                song = video_title(links)
-                print('Downloading %s' % song)
-                # code a progress bar for visuals?
-                urllib.urlretrieve(downloadLinkOnly, filename='%s.mp3' % song)
-                urllib.urlcleanup()  # clear the cache created by urlretrieve
-            except:
-                print('Error downloading %s' % song)
-        fhand.close()
+    for links in fhand:
+        try:
+            downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + links
+            song = video_title(links)
+            print('Downloading %s' % song)
+            # code a progress bar for visuals? this way is more portable than wget
+            retrieve(downloadLinkOnly, filename='%s.mp3' % song)
+            cleanup  # clear the cache created by urlretrieve
+        except:
+            print('Error downloading %s' % song)
+    fhand.close()
 
 
 # program exit
