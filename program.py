@@ -25,7 +25,7 @@ if version == 2:  # python 2.x
     encode = urllib.urlencode  # encode a search line
     retrieve = urllib.urlretrieve  # retrieve url info
     cleanup = urllib.urlcleanup()  # cleanup url cache
-    #search = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
+    
 else:  # python 3.x
     user_input = input
     import urllib.request
@@ -34,7 +34,7 @@ else:  # python 3.x
     encode = urllib.parse.urlencode
     retrieve = urllib.request.urlretrieve
     cleanup = urllib.request.urlcleanup()
-    search = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+
 
 
 # clear the terminal screen
