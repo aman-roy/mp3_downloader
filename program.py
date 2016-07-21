@@ -92,21 +92,27 @@ def single_download(song=None):
     if not(song):
         song = user_input('Enter the song name or youtube link: ')  # get the song name from user
 
+    if "youtube.com/" not in song:
         # try to get the search result and exit upon error
-    try:
-        query_string = encode({"search_query" : song})
-        html_content = urlopen("http://www.youtube.com/results?" + query_string)
+        try:
+            query_string = encode({"search_query" : song})
+            html_content = urlopen("http://www.youtube.com/results?" + query_string)
 
-        if version == 3:  # if using python 3.x
-            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-        else:  # if using python 2.x
-            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
-    except:
-        print('Network Error')
-        return None
+            if version == 3:  # if using python 3.x
+                search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+            else:  # if using python 2.x
+                search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read())
+        except:
+            print('Network Error')
+            return None
+        
+        # generate a download link that can be used to get the audio file using youtube2mp3 API
+        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
 
-    # generate a download link that can be used to get the audio file using youtube2mp3 API
-    downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
+    else:      # For a link
+        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video='+song
+        song=video_title(song)
+
     try:
         print('Downloading %s' % song)
         # code a progress bar for visuals? this way is more portable than wget
