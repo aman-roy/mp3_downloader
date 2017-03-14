@@ -14,7 +14,7 @@ You can try that online. Here is the link ->  http://songs.seemple.in
 
 # Revisions by Michael Gilbert:
 
-I have ported the entire script to be compatible with BOTH python 3
+I have ported the entire script to be compatible with BOTH python 2
 AND python 3.
 
 All functionality is kept between the 2 versions of python. There is a 
