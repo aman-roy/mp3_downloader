@@ -24,3 +24,7 @@ this process up.
 I also need to create a function for a progress bar. You do not get one
 when using urllib, only when using wget. Without wget, you have a more
 portable script.
+
+# Disclaimer
+
+Downloading copyrighted material may be illegal in your country. Use at your own risk.
