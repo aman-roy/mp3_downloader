@@ -9,6 +9,8 @@
 # import all the library used
 import re, urllib, os, sys
 
+from subprocess import call
+
 # determine python version
 version = sys.version_info[0]
 
@@ -106,18 +108,17 @@ def single_download(song=None):
             print('Network Error')
             return None
         
-        # generate a download link that can be used to get the audio file using youtube2mp3 API
-        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video=' + 'http://www.youtube.com/watch?v=' + search_results[0]
-
+        # make command that will be later executed
+        command = "youtube-dl -cit --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 " + search_results[0]
+        
     else:      # For a link
-        downloadLinkOnly = 'http://www.youtubeinmp3.com/fetch/?video='+song
+        # make command that will be later executed
+        command = "youtube-dl -cit --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 " + song[song.find("=")+1:]
         song=video_title(song)
 
-    try:
+    try:       # Try downloading song
         print('Downloading %s' % song)
-        # code a progress bar for visuals? this way is more portable than wget
-        retrieve(downloadLinkOnly, filename='%s.mp3' % song)
-        cleanup  # clear the cache created by urlretrieve
+        call(command.split(), shell=False)
     except:
         print('Error downloading %s' % song)
         return None
