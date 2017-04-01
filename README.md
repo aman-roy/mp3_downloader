@@ -10,16 +10,19 @@ You can try that online. Here is the link ->  http://songs.seemple.in
 
 > Make sure you have python and youtube-dl installed.
 
-## Install youtube-dl first (for UBUNTU)
+### Install youtube-dl for UBUNTU
 ```bash
 $ sudo apt-get install youtube-dl
 ```
 
-## For other operating systems
+### Install youtube-dl for windows
+> For windows download [youtube-dl.exe](https://yt-dl.org/latest/youtube-dl.exe) file and copy it in the directory.
+
+### For other operating systems
 > [See this](https://rg3.github.io/youtube-dl/download.html) 
 
 
-## Run program
+### Run program
 ```bash
 $ ./program
 ```
