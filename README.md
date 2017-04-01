@@ -8,12 +8,16 @@ You can try that online. Here is the link ->  http://songs.seemple.in
 
 # Usage
 
-> Make sure you have python installed.
+> Make sure you have python and youtube-dl installed.
 
-## Install youtube-dl first
+## Install youtube-dl first (for UBUNTU)
 ```bash
 $ sudo apt-get install youtube-dl
 ```
+
+## For other operating systems
+> [See this](https://rg3.github.io/youtube-dl/download.html) 
+
 
 ## Run program
 ```bash

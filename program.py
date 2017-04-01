@@ -118,7 +118,7 @@ def single_download(song=None):
 
     try:       # Try downloading song
         print('Downloading %s' % song)
-        call(command.split(), shell=False)
+        os.system(command)
     except:
         print('Error downloading %s' % song)
         return None
