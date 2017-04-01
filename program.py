@@ -9,8 +9,6 @@
 # import all the library used
 import re, urllib, os, sys
 
-from subprocess import call
-
 # determine python version
 version = sys.version_info[0]
 
