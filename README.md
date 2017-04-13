@@ -1,7 +1,7 @@
 # Mp3_Downloader
 A simple python script from which you can download the songs by just entering the name. You can also download by entering a list of name, youtube link or list of youtube links.
 
-You can try that online. Here is the link ->  http://songs.seemple.in
+You can try that online. Here is the link ->  http://mp3.amanroy.me
 
 
 [![demo](https://asciinema.org/a/1c0zitgara99eq8zn85tv3orm.png)](https://asciinema.org/a/1c0zitgara99eq8zn85tv3orm?autoplay=1)
