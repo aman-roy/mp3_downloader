@@ -107,11 +107,11 @@ def single_download(song=None):
             return None
         
         # make command that will be later executed
-        command = "youtube-dl -cit --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 " + search_results[0]
+        command = 'youtube-dl --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" ' + search_results[0]
         
     else:      # For a link
         # make command that will be later executed
-        command = "youtube-dl -cit --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 " + song[song.find("=")+1:]
+        command = 'youtube-dl --embed-thumbnail --no-warnings --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" ' + song[song.find("=")+1:]
         song=video_title(song)
 
     try:       # Try downloading song
