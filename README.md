@@ -14,12 +14,17 @@ You can try that online. Here is the link ->  http://mp3.amanroy.me
 ```bash
 $ sudo apt-get install youtube-dl
 ```
-
 ### Install youtube-dl for windows
 > For windows download [youtube-dl.exe](https://yt-dl.org/latest/youtube-dl.exe) file and copy it in the directory.
-
 ### For other operating systems
 > [See this](https://rg3.github.io/youtube-dl/download.html) 
+
+
+### Install ffprobe ubuntu
+```bash
+$ sudo add-apt-repository ppa:mc3man/trusty-media
+$ sudo apt-get install ffmpeg
+```
 
 
 ### Run program

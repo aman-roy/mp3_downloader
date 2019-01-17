@@ -7,7 +7,7 @@
 # All licence belongs to authour.
 
 # import all the library used
-import re, urllib, os, sys
+import re, urllib, os, sys, argparse,time
 
 # determine python version
 version = sys.version_info[0]
@@ -53,7 +53,7 @@ def video_title(url):
 # the intro to the script
 def intro():
     print('''Created by Aman Roy
-    FB:- amanroy007
+    github:- http://github.com/aman-roy
     Email:- royaman8757@gmail.com''')
 
 
@@ -70,12 +70,12 @@ def prompt():
 
 
 # download from a list of songs or links
-def list_download():
-    fileName = user_input('fileName(with extension): ')  # get the file name to be opened
-
+def list_download(song_list=None):
+    if not song_list:
+        song_list = user_input('fileName(with extension): ')  # get the file name to be opened
     # find the file and set fhand as handler
     try:
-        fhand = open(fileName, 'r')
+        fhand = open(song_list, 'r')
     except IOError:
         print('File does not exist')
         exit(1)
@@ -130,21 +130,32 @@ def exit(code):
 
 # main guts of the program
 def main():
-    try:
-        screen_clear()
-        intro()
-        choice = prompt()
-
+	# Check for any flags first
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-s", "--single", help="for single song download.")
+    ap.add_argument("-l", "--list", help="for list of song download")
+    args = vars(ap.parse_args())
+    if args['single'] or args['list']:
+    	if args['single']:
+    	    single_download(args['single'])
+    	else:
+    		list_download(args['list'])
+    else:
         try:
-            if choice == '1':
-                list_download()
-            elif choice == '2':
-                single_download()
-        except NameError:
+            screen_clear()
+            intro()
+            choice = prompt()
+
+            try:
+                if choice == '1':
+                    list_download()
+                elif choice == '2':
+                    single_download()
+            except NameError:
+                exit(1)
+        except KeyboardInterrupt:
             exit(1)
-    except KeyboardInterrupt:
         exit(1)
-    exit(1)
 
 if __name__ == '__main__':
     main()  # run the main program
