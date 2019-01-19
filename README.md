@@ -1,10 +1,11 @@
 # Mp3_Downloader
+---
 A simple python script from which you can download the songs by just entering the name. You can also download by entering a list of name, youtube link or list of youtube links.
 
 You can try that online. Here is the link ->  http://mp3.amanroy.me
 
 
-[![demo](https://asciinema.org/a/1c0zitgara99eq8zn85tv3orm.png)](https://asciinema.org/a/1c0zitgara99eq8zn85tv3orm?autoplay=1)
+[![asciicast](https://asciinema.org/a/222455.svg)](https://asciinema.org/a/222455)
 
 # Usage
 
@@ -29,7 +30,26 @@ $ sudo apt-get install ffmpeg
 
 ### Run program
 ```bash
-$ ./program
+$ ./program.py 
+```
+
+### passing arguments
+
+##### Single song download
+```bash
+$ ./program.py -s "<song_name>"
+```
+```bash
+$ ./program.py --single "<song_name>"
+```
+
+##### List of songs download 
+
+```bash
+$ ./program.py -l <filename_with_extension>
+```
+```bash
+$ ./program.py --list <filename_with_extension>
 ```
 
 # Contributors
@@ -38,7 +58,7 @@ $ ./program
 
 # Note:
 
-> This program is tested on Ubuntu 16.04 LTS
+> This program is tested on Ubuntu 16.04/18.04 LTS
 
 # Disclaimer
 
