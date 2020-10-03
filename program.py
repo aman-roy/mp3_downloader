@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# A python to download a song or a list of songs.
-# create by Aman Roy
+# A python project to download a song or a list of songs.
+# created by Aman Roy
 # Creation Date : 18-Feb-2016
 # Python version used : - Python 3.4.3+ (ported for python2)
 # Please use right spelling to avoid errors
 # All licence belongs to authour.
 
-# import all the library used
+# Please import all the library used
 import re, urllib, os, sys, argparse,time
 
 # determine python version
@@ -50,7 +50,7 @@ def video_title(url):
 
     return title
 
-# the intro to the script
+# the introduction of the Author 
 def intro():
     print('''Created by Aman Roy
     github:- http://github.com/aman-roy
@@ -59,7 +59,7 @@ def intro():
 
 # find out what the user wants to do
 def prompt():
-    # userr prompt to ask mode
+    # user prompt to ask mode
     print ('''\t\t\t Select A mode
     [1] Download from a list
     [2] Download from direct entry
